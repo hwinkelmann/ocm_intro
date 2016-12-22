@@ -1,9 +1,12 @@
 // Contains rendering stuff and helpers for working with ordering tables
 #define OT_LENGTH  13  
 #define PACKETMAX 10000
+#define OT_FURTHEST ((1<<OT_LENGTH)-1)
 
 int ViewportWidth;
 int ViewportHeight;
+
+GsOT *ot;
 
 GsOT WorldOT[2];
 GsOT_TAG OTTags[2][1<<OT_LENGTH]; 

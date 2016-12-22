@@ -1,4 +1,4 @@
-static void DumpTim(u_long *ptr) {
+static void DumpTim(int stream, u_long *ptr) {
 	GsIMAGE tim;
 
 	// Wait for all non-blocking drawing to terminate
@@ -7,18 +7,18 @@ static void DumpTim(u_long *ptr) {
 	// Note: TIM header (10 00 00 00) needs to be skipped!
 	GsGetTimInfo(ptr + 1, &tim);
 
-	FntPrint("IMAGE:     X: %d, Y: %d, W: %d, H: %d\n", tim.px, tim.py, tim.pw, tim.ph);
+	FntPrint(stream, "IMAGE:     X: %d, Y: %d, W: %d, H: %d\n", tim.px, tim.py, tim.pw, tim.ph);
 
-	switch(tim.pmode & 3) {
-		case 0: FntPrint("4bit CLUT: "); break;
-		case 1: FntPrint("8bit CLUT: "); break;
-		case 2: FntPrint("16bit DIRECT"); break;
-		case 3: FntPrint("24bit DIRECT"); break;
-		default: FntPrint("pmode: %d\n", tim.pmode); break;
+	switch	(tim.pmode & 3) {
+		case 0: FntPrint(stream, "4bit CLUT: "); break;
+		case 1: FntPrint(stream, "8bit CLUT: "); break;
+		case 2: FntPrint(stream, "16bit DIRECT"); break;
+		case 3: FntPrint(stream, "24bit DIRECT"); break;
+		default: FntPrint(stream, "pmode: %d\n", tim.pmode); break;
 	}
 	
 	if ((tim.pmode & 3) < 2)
-		FntPrint("X: %d, Y: %d, W: %d, H: %d\n", tim.cx, tim.cy, tim.cw, tim.ch);
+		FntPrint(stream, "X: %d, Y: %d, W: %d, H: %d\n", tim.cx, tim.cy, tim.cw, tim.ch);
 	
 }
 
@@ -62,9 +62,6 @@ static void LoadTim(u_long *ptr, GsSPRITE* sprite)
 		// Texture page
 		sprite->tpage = GetTPage(tim.pmode & 3, 0, tim.px, tim.py);
 		
-		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		sprite->tpage = 6;
-		
 		// Set reasonable defaults here
 		// Bit 6: If set, brightness adjustment is disabled
 		// Bit 27: If set, rotation/scaling is disabled
@@ -102,10 +99,6 @@ static void LoadTim(u_long *ptr, GsSPRITE* sprite)
 		sprite->u = tim.px % 64;
 		sprite->v = tim.py % 256;
 		
-		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		sprite->u = 0;
-		sprite->v = 0;
-
 		// Clut address
 		sprite->cx = tim.cx;
 		sprite->cy = tim.cy;

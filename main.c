@@ -2,15 +2,22 @@
 #include "libps.h"
 #include "video.h"
 #include "tim.h"
+#include "backgrnd.h"
 //#include "pad.h"
 
 // Assets
 
 int frame = 0;
 
+int printStream;
+
 int main() {
+    int activeBuff;
+
     // Set video mode    
     InitVideo();
+
+    InitBackground();
 
     // Initialize ordering tables
     InitOT();
@@ -18,14 +25,22 @@ int main() {
     // Initialize 3D pipeline
     GsInit3D(); 
 
+    FntLoad(960, 256);
+	printStream = FntOpen(-160, -128, 320, 240, 0, 512);
+
     // render loop
     while (1) {
         // Read active buffer and switch to the corresponding OT
-        int activeBuff = GsGetActiveBuff();
+        activeBuff = GsGetActiveBuff();
+        ot = &WorldOT[activeBuff];
         GsSetWorkBase((PACKET*)GpuPacketArea[activeBuff]);
-		GsClearOt(0, 0, &WorldOT[activeBuff]);
+		GsClearOt(0, 0, ot);
 
         // Do rendering...
+        RenderBackground();
+
+        DumpTim(printStream, (u_long*)img_backgrade);
+        FntFlush(printStream);
 
         // Wait for rendering to complete
         DrawSync(0);
