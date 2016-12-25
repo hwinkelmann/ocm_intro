@@ -1,5 +1,9 @@
 [TIM Files]
-File_0=C:\psx2\src\ocm_intro\assets\BACKGRADE.TIM
+File_0=C:\psx2\src\ocm_intro\assets\INVADER1.TIM
+File_1=C:\psx2\src\ocm_intro\assets\INVADER2.TIM
+File_2=C:\psx2\src\ocm_intro\assets\INVADER3.TIM
+File_3=C:\psx2\src\ocm_intro\assets\INVADER4.TIM
+File_4=C:\psx2\src\ocm_intro\assets\INVADER5.TIM
 [Graphics Mode]
 Width=320
 Height=256

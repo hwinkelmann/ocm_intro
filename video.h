@@ -1,4 +1,7 @@
 // Contains rendering stuff and helpers for working with ordering tables
+#ifndef _VIDEO_H_
+#define _VIDEO_H_
+
 #define OT_LENGTH  13  
 #define PACKETMAX 10000
 #define OT_FURTHEST ((1<<OT_LENGTH)-1)
@@ -12,7 +15,7 @@ GsOT WorldOT[2];
 GsOT_TAG OTTags[2][1<<OT_LENGTH]; 
 PACKET GpuPacketArea[2][PACKETMAX*24];
 
-void InitVideo() {
+static void InitVideo() {
 	// Detect video mode. SCEE => Europe, and PAL. NTSC otherwise.
 	if (*(char *)0xbfc7ff52=='E') {
 		// PAL
@@ -37,7 +40,7 @@ void InitVideo() {
 }
 
 
-void InitOT() {
+static void InitOT() {
 	int i;
 
 	for (i=0; i<2; i++) {
@@ -46,3 +49,4 @@ void InitOT() {
 		GsClearOt(0, 0, &WorldOT[i]);
 	}
 }
+#endif
